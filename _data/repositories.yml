@@ -1,12 +1,13 @@
 github_users:
-  - torvalds
-  - alshedivat
+  - hubentu
+  - qhu75
 
 github_repos:
-  - alshedivat/al-folio
-  - twbs/bootstrap
-  - jekyll/jekyll
-  - jquery/jquery
-  - FortAwesome/Font-Awesome
-  - jpswalsh/academicons
-  - mathjax/MathJax
+  - rworkflow/Rcwl
+  - rworkflow/RcwlPipelines
+  - hubentu/sedatasets
+  - hubentu/SEdatasets
+  - hubentu/genemodel
+  - macs3-project/MACSr
+  - qhu75/fhiRclient
+  - qhu75/DVA-Project
