@@ -1,0 +1,13 @@
+github_users:
+  - hubentu
+  - qhu75
+
+github_repos:
+  - rworkflow/Rcwl
+  - rworkflow/RcwlPipelines
+  - hubentu/sedatasets
+  - hubentu/SEdatasets
+  - hubentu/genemodel
+  - macs3-project/MACSr
+  - qhu75/fhiRclient
+  - qhu75/DVA-Project

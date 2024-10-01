@@ -1,0 +1,80 @@
+{
+  "basics": {
+    "name": "Qiang Hu",
+    "label": "",
+    "image": "",
+    "email": "huqmail_at@_gmail.com",
+    "phone": "(7x6) 845-2300",
+    "url": "https://hubentu.github.io/",
+    "summary": "I am a bioinformatics expert with a solid background in machine learning, eager to apply my programming, cloud computing, and deep learning skills to innovate in healthcare through transformative AI solutions.",
+    "location": {
+      "address": "665 Elm St, Buffalo",
+      "postalCode": "NY 14203",
+      "city": "Buffalo",
+      "countryCode": "US",
+      "region": "NY"
+    },
+    "profiles": [
+      {
+        "network": "Twitter",
+        "username": "hubentu",
+        "url": "https://twitter.com/hubentu"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Roswell Park Comprehensive Cancer Center",
+      "position": "Senior Biostatistician",
+      "url": "https://example.com",
+      "startDate": "2013",
+      "endDate": "Present",
+      "summary": "",
+      "highlights": [
+        "Genomic sequencing data analysis",
+        "Bioinformatics software and method development",
+        "High performance computing"
+      ]
+    }
+  ],
+  "volunteer": [],
+  "education": [
+    {
+      "institution": "Georgia Institute of Technology",
+      "url": "https://www.gatech.edu/",
+      "area": "Computer Science",
+      "studyType": "MS",
+      "startDate": "2020",
+      "endDate": "2023",
+      "score": "GPA 4.0",
+      "courses": [
+        "Specialization in Machine Learning",
+        "AI; Deep Learning; NLP; Algorithm"
+      ]
+    }
+  ],
+  "awards": [
+    {
+      "title": "2021 Showcase award",
+      "date": "2021 fall",
+      "awarder": "Georgia Institute of Technology",
+      "summary": "Modeling and evaluation of vision transformer and CNN models in medical image classification"
+    }
+  ],
+  "certificates": [],
+  "publications": [],
+  "skills": [],
+  "languages": [
+    {
+      "language": "Chinese",
+      "fluency": "Native speaker"
+    },
+    {
+      "language": "English",
+      "fluency": "Fluent"
+    }
+  ],
+  "interests": [],
+  "references": [],
+  "projects": []
+}

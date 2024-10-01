@@ -1,0 +1,62 @@
+- title: General Information
+  type: map
+  contents:
+    - name: Full Name
+      value: Qiang Hu
+    # - name: Date of Birth
+    #   value: 14th March 1879
+    - name: Languages
+      value: English, Chinese
+
+- title: Education
+  type: time_table
+  contents:
+    - title: MS in Computer Science
+      institution: Georgia Institute of Technology
+      year: 2023
+      description:
+        - Specialization in Machine Learning
+        - GPA 4.0
+
+- title: Experience
+  type: time_table
+  contents:
+    - title: Senior Bioinformatician
+      institution: Department of Biostatistics & Bioinformatics, Roswell Park Cancer Institute
+      year: 2013 - Present
+      description:
+        - Genomic sequencing data analysis such as DNA, RNA, Methylation _etc_.
+        - Bioinformatics software and method development
+        - High performance computing; cloud computin
+
+- title: Open Source Projects
+  type: time_table
+  contents:
+    - title: <a href="https://github.com/hubentu/sedatasets">sedatasets</a>
+      year: 2023-now
+      description: Python and R package to convert Bioconductor `SummarizedExperiment` data structure to HuggingFace `datasets`.
+    - title: 
+
+- title: Honors and Awards
+  type: time_table
+  contents:
+    - year: 2021
+      items: 
+        - 2021 Showcase award 
+
+- title: Academic Interests
+  type: nested_list
+  contents:
+    - title: Genomic data science
+      items: 
+        - Genomic sequencing data analysis
+        - Health care data mining
+    - title: Machine Learning
+      items:
+        - Deep learning from genotype/biomarker/images to phenotype
+        - Fundation NLP model
+
+# - title: Other Interests
+#   type: list
+#   contents:
+#     - <u>Hobbies:</u> Hobby 1, Hobby 2, etc.
