@@ -1,4 +1,110 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://hubentu.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://hubentu.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-10-01T21:10:35+00:00</updated><id>https://hubentu.github.io/feed.xml</id><title type="html">blank</title><subtitle>Qiang&apos;s personal website. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Question-Answering Engine with CrewAI and SearXNG</title><link href="https://hubentu.github.io/blog/2024/QA-SearXNG/" rel="alternate" type="text/html" title="Question-Answering Engine with CrewAI and SearXNG"/><published>2024-03-28T00:00:00+00:00</published><updated>2024-03-28T00:00:00+00:00</updated><id>https://hubentu.github.io/blog/2024/QA-SearXNG</id><content type="html" xml:base="https://hubentu.github.io/blog/2024/QA-SearXNG/"><![CDATA[<p>In the rapidly evolving field of AI and information retrieval, the quest for a more intelligent, efficient, and customizable question-answering system is never-ending. The integration of CrewAI, a platform for creating AI agents with specific roles and capabilities, with SearXNG, a privacy-respecting meta search engine, opens new avenues for developing such systems. This blog post delves into how to leverage these technologies to create a customized question-answer engine capable of searching topics from a meta search engine and summarizing the findings into a cohesive article.</p> <h2 id="setting-the-stage-with-searxng">Setting the Stage with SearXNG</h2> <p>SearXNG stands as a pivotal component in this setup, serving as the meta search engine. It is free. The initial step involves launching SearXNG using Docker, ensuring it’s configured to output results in JSON format for easy parsing and integration. This step is crucial for enabling the seamless flow of information between the search engine and the AI agents responsible for processing the search queries and generating summaries.</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker run <span class="nt">--rm</span> <span class="se">\</span>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://hubentu.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://hubentu.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-10-03T20:41:20+00:00</updated><id>https://hubentu.github.io/feed.xml</id><title type="html">blank</title><subtitle>Qiang&apos;s personal website. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">cmdAgent</title><link href="https://hubentu.github.io/blog/2024/cmdagent/" rel="alternate" type="text/html" title="cmdAgent"/><published>2024-10-03T00:00:00+00:00</published><updated>2024-10-03T00:00:00+00:00</updated><id>https://hubentu.github.io/blog/2024/cmdagent</id><content type="html" xml:base="https://hubentu.github.io/blog/2024/cmdagent/"><![CDATA[<h1 id="tool-agent-readme">Tool Agent README</h1> <h2 id="overview">Overview</h2> <p>Tool Agent is a Python package that converts any command-line tool into a Large Language Model (LLM) agent. This allows you to interact with the tool using natural language, making it easier to use and integrate with other applications.</p> <h2 id="requirements">Requirements</h2> <ul> <li>Python 3.12 or later</li> <li>FastAPI</li> <li>Requests</li> <li>Pydantic</li> <li>Uvicorn</li> <li>cwltool</li> </ul> <h2 id="installation">Installation</h2> <p>To install Tool Agent, run the following command:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>git+https://github.com/hubentu/cmdagent
+</code></pre></div></div> <h2 id="usage">Usage</h2> <h3 id="creating-an-api">Creating an API</h3> <p>To create an API, import the <code class="language-plaintext highlighter-rouge">tool_api</code> function from <code class="language-plaintext highlighter-rouge">cmdagent.remote_api</code> and pass in the path to a CWL file and the name of the tool:</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">cmdagent.remote_api</span> <span class="kn">import</span> <span class="n">tool_api</span>
+
+<span class="n">api</span> <span class="o">=</span> <span class="nf">tool_api</span><span class="p">(</span><span class="n">cwl_file</span><span class="o">=</span><span class="sh">'</span><span class="s">tests/dockstore-tool-md5sum.cwl</span><span class="sh">'</span><span class="p">,</span> <span class="n">tool_name</span><span class="o">=</span><span class="sh">'</span><span class="s">md5sum</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">api</span><span class="p">.</span><span class="nf">serve</span><span class="p">()</span>
+</code></pre></div></div> <p>The <code class="language-plaintext highlighter-rouge">api.serve()</code> method will start a RESTful API as a service, allowing you to run the tool remotely from the cloud or locally.</p> <h3 id="creating-a-tool-agent">Creating a Tool Agent</h3> <p>To create a tool agent, import the <code class="language-plaintext highlighter-rouge">cmdagent</code> function from <code class="language-plaintext highlighter-rouge">cmdagent.agent</code> and pass in the API instance:</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">cmdagent.agent</span> <span class="kn">import</span> <span class="n">tool_agent</span>
+
+<span class="n">ta</span> <span class="o">=</span> <span class="nf">tool_agent</span><span class="p">(</span><span class="n">api</span><span class="p">)</span>
+<span class="n">md5</span> <span class="o">=</span> <span class="n">ta</span><span class="p">.</span><span class="nf">create_tool</span><span class="p">()</span>
+<span class="nf">md5</span><span class="p">(</span><span class="n">input_file</span><span class="o">=</span><span class="sh">"</span><span class="s">tests/dockstore-tool-md5sum.cwl</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div> <p>Function <code class="language-plaintext highlighter-rouge">md5</code> is created automatically based on the <code class="language-plaintext highlighter-rouge">api</code>.</p> <h3 id="integrating-with-gemini">Integrating with Gemini</h3> <p>To integrate the tool agent with Gemini, import the <code class="language-plaintext highlighter-rouge">GenerativeModel</code> class from <code class="language-plaintext highlighter-rouge">google.generativeai</code> and create a new instance:</p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">google.generativeai</span> <span class="k">as</span> <span class="n">genai</span>
+
+<span class="n">genai</span><span class="p">.</span><span class="nf">configure</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="sh">"</span><span class="s">******</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">genai</span><span class="p">.</span><span class="nc">GenerativeModel</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="sh">'</span><span class="s">gemini-1.5-flash</span><span class="sh">'</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">md5</span><span class="p">])</span>
+
+<span class="n">chat</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">start_chat</span><span class="p">(</span><span class="n">enable_automatic_function_calling</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">chat</span><span class="p">.</span><span class="nf">send_message</span><span class="p">(</span><span class="sh">"</span><span class="s">what is md5 of tests/dockstore-tool-md5sum.cwl?</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">response</span><span class="p">.</span><span class="n">text</span>
+</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'The md5sum of tests/dockstore-tool-md5sum.cwl is ad59d9e9ed6344f5c20ee7e0143c6c12. \n'
+</code></pre></div></div>]]></content><author><name>Qiang</name></author><category term="NLP"/><category term="LLM,"/><category term="Python"/><summary type="html"><![CDATA[a Python package that converts any command-line tool into a Large Language Model (LLM) agent.]]></summary></entry><entry><title type="html">cmd2cwl</title><link href="https://hubentu.github.io/blog/2024/cmd2cwl/" rel="alternate" type="text/html" title="cmd2cwl"/><published>2024-10-01T00:00:00+00:00</published><updated>2024-10-01T00:00:00+00:00</updated><id>https://hubentu.github.io/blog/2024/cmd2cwl</id><content type="html" xml:base="https://hubentu.github.io/blog/2024/cmd2cwl/"><![CDATA[<h1 id="cmd2cwl-model-information"><a href="https://huggingface.co/hubentu/cmd2cwl_Llama-3.2-3B"><code class="language-plaintext highlighter-rouge">cmd2cwl</code></a> Model Information</h1> <p>The <a href="https://huggingface.co/hubentu/cmd2cwl_Llama-3.2-3B"><code class="language-plaintext highlighter-rouge">cmd2cwl</code></a> model is an instruction fine-tuned version of the <code class="language-plaintext highlighter-rouge">unsloth/Llama-3.2-3B</code>. This model has been trained on a custom dataset consisting of help documentation from various command-line tools and corresponding CWL (Common Workflow Language) scripts. Its purpose is to assist users in converting command-line tool documentation into clean and well-structured CWL scripts, enhancing automation and workflow reproducibility.</p> <h1 id="example">Example</h1> <h2 id="task">Task</h2> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">question</span> <span class="o">=</span> <span class="sh">"""</span><span class="s">
+Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.
+
+### Instruction:
+Write a cwl script for md5sum with docker image alpine.
+
+### Input:
+
+    With no FILE, or when FILE is -, read standard input.
+
+    -b, --binary         read in binary mode
+    -c, --check          read MD5 sums from the FILEs and check them
+    --tag            create a BSD-style checksum
+    -t, --text           read in text mode (default)
+    -z, --zero           end each output line with NUL, not newline,
+    and disable file name escaping
+
+    The following five options are useful only when verifying checksums:
+    --ignore-missing  don</span><span class="sh">'</span><span class="s">t fail or report status for missing files
+    --quiet          don</span><span class="sh">'</span><span class="s">t print OK for each successfully verified file
+    --status         don</span><span class="sh">'</span><span class="s">t output anything, status code shows success
+    --strict         exit non-zero for improperly formatted checksum lines
+    -w, --warn           warn about improperly formatted checksum lines
+
+    --help     display this help and exit
+    --version  output version information and exit
+
+    The sums are computed as described in RFC 1321.  When checking, the input
+    should be a former output of this program.  The default mode is to print a
+    line with checksum, a space, a character indicating input mode (</span><span class="sh">'</span><span class="s">*</span><span class="sh">'</span><span class="s"> for binary,
+    </span><span class="sh">'</span><span class="s"> </span><span class="sh">'</span><span class="s"> for text or where binary is insignificant), and name for each FILE.
+
+
+### Response:
+</span><span class="sh">"""</span>
+</code></pre></div></div> <h2 id="using-unsloth">Using unsloth</h2> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">unsloth</span> <span class="kn">import</span> <span class="n">FastLanguageModel</span>
+<span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">TextStreamer</span>
+
+<span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">FastLanguageModel</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span>
+    <span class="n">model_name</span> <span class="o">=</span> <span class="sh">"</span><span class="s">hubentu/cmd2cwl_Llama-3.2-3B</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">load_in_4bit</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">FastLanguageModel</span><span class="p">.</span><span class="nf">for_inference</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="n">inputs</span> <span class="o">=</span> <span class="nf">tokenizer</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">question</span><span class="p">],</span>
+    <span class="n">return_tensors</span> <span class="o">=</span> <span class="sh">"</span><span class="s">pt</span><span class="sh">"</span><span class="p">).</span><span class="nf">to</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">text_streamer</span> <span class="o">=</span> <span class="nc">TextStreamer</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">,</span> <span class="n">streamer</span> <span class="o">=</span> <span class="n">text_streamer</span><span class="p">)</span>
+
+</code></pre></div></div> <h2 id="using-automodelforcausallm">Using AutoModelForCausalLM</h2> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModelForCausalLM</span>
+<span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">TextStreamer</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="sh">"</span><span class="s">hubentu/cmd2cwl_Llama-3.2-3B</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="sh">"</span><span class="s">hubentu/cmd2cwl_Llama-3.2-3B</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">text_streamer</span> <span class="o">=</span> <span class="nc">TextStreamer</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">,</span> <span class="n">streamer</span> <span class="o">=</span> <span class="n">text_streamer</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">8192</span><span class="p">)</span>
+</code></pre></div></div> <h2 id="using-generator">Using generator</h2> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+<span class="n">generator</span> <span class="o">=</span> <span class="nf">pipeline</span><span class="p">(</span><span class="sh">'</span><span class="s">text-generation</span><span class="sh">'</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="sh">"</span><span class="s">checkpoints/cmd2cwl_Llama-3.2-3B</span><span class="sh">"</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">resp</span> <span class="o">=</span> <span class="nf">generator</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">8192</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="sh">'</span><span class="s">generated_text</span><span class="sh">'</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">### Response:</span><span class="se">\n</span><span class="sh">"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</code></pre></div></div> <h2 id="output">Output</h2> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cwlVersion: v1.0
+class: CommandLineTool
+baseCommand:
+- md5sum
+requirements:
+- class: DockerRequirement
+  dockerPull: alpine:latest
+label: md5sum
+doc: Compute and check MD5 checksums
+inputs:
+  files:
+    label: files
+    doc: Input files
+    type: File[]
+    inputBinding:
+      separate: true
+outputs:
+  md5:
+    label: md5
+    doc: MD5 checksums
+    type: string[]
+    outputBinding:
+      glob: $(inputs.files.name)
+</code></pre></div></div> <h1 id="uploaded--model">Uploaded model</h1> <ul> <li><strong>Developed by:</strong> hubentu</li> <li><strong>License:</strong> apache-2.0</li> <li><strong>Finetuned from model :</strong> unsloth/Llama-3.2-3B</li> <li><strong>Model Home</strong>: <a href="https://huggingface.co/hubentu/cmd2cwl_Llama-3.2-3B">https://huggingface.co/hubentu/cmd2cwl_Llama-3.2-3B</a></li> </ul>]]></content><author><name>Qiang</name></author><category term="NLP"/><category term="LLM,"/><category term="CWL"/><summary type="html"><![CDATA[LLM model for coverting tool help document to CWL script.]]></summary></entry><entry><title type="html">Question-Answering Engine with CrewAI and SearXNG</title><link href="https://hubentu.github.io/blog/2024/QA-SearXNG/" rel="alternate" type="text/html" title="Question-Answering Engine with CrewAI and SearXNG"/><published>2024-03-28T00:00:00+00:00</published><updated>2024-03-28T00:00:00+00:00</updated><id>https://hubentu.github.io/blog/2024/QA-SearXNG</id><content type="html" xml:base="https://hubentu.github.io/blog/2024/QA-SearXNG/"><![CDATA[<p>In the rapidly evolving field of AI and information retrieval, the quest for a more intelligent, efficient, and customizable question-answering system is never-ending. The integration of CrewAI, a platform for creating AI agents with specific roles and capabilities, with SearXNG, a privacy-respecting meta search engine, opens new avenues for developing such systems. This blog post delves into how to leverage these technologies to create a customized question-answer engine capable of searching topics from a meta search engine and summarizing the findings into a cohesive article.</p> <h2 id="setting-the-stage-with-searxng">Setting the Stage with SearXNG</h2> <p>SearXNG stands as a pivotal component in this setup, serving as the meta search engine. It is free. The initial step involves launching SearXNG using Docker, ensuring it’s configured to output results in JSON format for easy parsing and integration. This step is crucial for enabling the seamless flow of information between the search engine and the AI agents responsible for processing the search queries and generating summaries.</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker run <span class="nt">--rm</span> <span class="se">\</span>
              <span class="nt">-d</span> <span class="nt">-p</span> 8080:8080 <span class="se">\</span>
              <span class="nt">-v</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PWD</span><span class="k">}</span><span class="s2">/searxng:/etc/searxng"</span> <span class="se">\</span>
              <span class="nt">-e</span> <span class="s2">"BASE_URL=http://localhost:</span><span class="nv">$PORT</span><span class="s2">/"</span> <span class="se">\</span>
@@ -499,65 +605,4 @@ conda install readline
 ## Jarvis: I'm not.
 ## 
 ## Tony Stark: I'm sure you're
-</code></pre></div></div> <h2 id="reference">Reference</h2> <p>https://blogs.rstudio.com/tensorflow/posts/2019-10-23-gpt-2/</p>]]></content><author><name></name></author><category term="deeplearning"/><category term="rstats"/><summary type="html"><![CDATA[Happy holiday from GTP-2 in R GTP-2 is the state-of-the-art language model from OpenAI.]]></summary></entry><entry><title type="html">Tidytuesday Christmas Songs Wordcloud</title><link href="https://hubentu.github.io/blog/2019/TidyTuesday-christmas-songs-wordcloud/" rel="alternate" type="text/html" title="Tidytuesday Christmas Songs Wordcloud"/><published>2019-12-24T00:00:00+00:00</published><updated>2019-12-24T00:00:00+00:00</updated><id>https://hubentu.github.io/blog/2019/TidyTuesday-christmas-songs-wordcloud</id><content type="html" xml:base="https://hubentu.github.io/blog/2019/TidyTuesday-christmas-songs-wordcloud/"><![CDATA[<h1 id="tidytuesday-wordcloud-for-christmas-music-billboards">TidyTuesday: WordCloud for Christmas Music Billboards</h1> <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">tidytext</span><span class="p">)</span><span class="w">
-</span><span class="n">data</span><span class="p">(</span><span class="n">stop_words</span><span class="p">)</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">wordcloud2</span><span class="p">)</span><span class="w">
-
-</span><span class="n">tuesdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tidytuesdayR</span><span class="o">::</span><span class="n">tt_load</span><span class="p">(</span><span class="s2">"2019-12-24"</span><span class="p">)</span><span class="w">
-</span><span class="n">lyrics</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tuesdata</span><span class="o">$</span><span class="n">christmas_lyrics</span><span class="w">
-</span></code></pre></div></div> <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lyc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lyrics</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">unnest_tokens</span><span class="p">(</span><span class="n">word</span><span class="p">,</span><span class="w"> </span><span class="n">lyric</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">anti_join</span><span class="p">(</span><span class="n">stop_words</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">count</span><span class="p">(</span><span class="n">word</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Joining, by = "word"
-</code></pre></div></div> <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wordcloud2</span><span class="p">(</span><span class="n">lyc</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div> <iframeComp ihtml="/widgets/Christmas_song_wordcloud.html"></iframeComp>]]></content><author><name></name></author><category term="tidytuesday"/><category term="rstats"/><summary type="html"><![CDATA[TidyTuesday: WordCloud for Christmas Music Billboards]]></summary></entry><entry><title type="html">R Flowchart</title><link href="https://hubentu.github.io/blog/2019/R-flowchart/" rel="alternate" type="text/html" title="R Flowchart"/><published>2019-12-20T00:00:00+00:00</published><updated>2019-12-20T00:00:00+00:00</updated><id>https://hubentu.github.io/blog/2019/R-flowchart</id><content type="html" xml:base="https://hubentu.github.io/blog/2019/R-flowchart/"><![CDATA[<h1 id="packages-to-draw-flowchart-christmas-tree-in-r">Packages to draw flowchart (christmas tree) in R</h1> <h2 id="graphviz"><a href="https://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html">Graphviz</a></h2> <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">DiagrammeR</span><span class="p">)</span><span class="w">
-</span><span class="n">f1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">grViz</span><span class="p">(</span><span class="s2">"
-digraph xmas {
-  # graph satement
-  graph [overlap = true, fontsize = 10]
-
-  # node statement
-  node [shape = triangle, style = filled, fillcolor = darkgreen]
-  B; C; D; E; F; G
-  A [shape = star, fillcolor = gold, fontsize = 5]
-  H [shape = box, fillcolor = brown]
-
-  # edge
-  edge [arrowhead = dot, color = gold]
-  A -&gt; B
-  B -&gt; {C D}
-  C -&gt; {E F}
-  D -&gt; {F G}
-  F -&gt; H
-}
-"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div> <iframeComp ihtml="/widgets/xmas_grViz.html"></iframeComp> <h2 id="mermaid"><a href="https://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html">mermaid</a></h2> <p>Could anyone tell me how to use star/triangle, change font size, define class?</p> <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">f2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mermaid</span><span class="p">(</span><span class="s2">"
-graph TB
-  A((A)) --&gt; B{B}
-  B{B} --&gt; |O|C{C}
-  B{B} --&gt; |O|D{D}
-  C{C} --&gt; |O|E{E}
-  C{C} --&gt; |O|F{F}
-  D{D} --&gt; |O|F{F}
-  D{D} --&gt; |O|G{G}
-  F{F} --- H[H]
-
-  style A fill:gold
-  style H fill:brown
-  style B fill:green
-  style C fill:green
-  style D fill:green
-  style E fill:green
-  style F fill:green
-  style G fill:green
-"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div> <iframeComp ihtml="/widgets/xmas_mermaid.html"></iframeComp> <h2 id="visnetwork"><a href="https://datastorm-open.github.io/visNetwork/">visNetwork</a></h2> <p>Most R-friendly way to draw a flowchart.</p> <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">visNetwork</span><span class="p">)</span><span class="w">
-</span><span class="n">nodes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">LETTERS</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">8</span><span class="p">],</span><span class="w">
-                    </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">LETTERS</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">8</span><span class="p">],</span><span class="w">
-                    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"gold"</span><span class="p">,</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="s2">"darkgreen"</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">),</span><span class="w"> </span><span class="s2">"brown"</span><span class="p">),</span><span class="w">
-                    </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"star"</span><span class="p">,</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="s2">"triangle"</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">),</span><span class="w"> </span><span class="s2">"box"</span><span class="p">))</span><span class="w">
-</span><span class="n">edges</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"A"</span><span class="p">,</span><span class="w"> </span><span class="s2">"B"</span><span class="p">,</span><span class="w"> </span><span class="s2">"B"</span><span class="p">,</span><span class="w"> </span><span class="s2">"C"</span><span class="p">,</span><span class="w"> </span><span class="s2">"C"</span><span class="p">,</span><span class="w"> </span><span class="s2">"D"</span><span class="p">,</span><span class="w"> </span><span class="s2">"D"</span><span class="p">,</span><span class="w"> </span><span class="s2">"F"</span><span class="p">,</span><span class="w"> </span><span class="s2">"E"</span><span class="p">,</span><span class="w"> </span><span class="s2">"G"</span><span class="p">),</span><span class="w">
-                    </span><span class="n">to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"B"</span><span class="p">,</span><span class="w"> </span><span class="s2">"C"</span><span class="p">,</span><span class="w"> </span><span class="s2">"D"</span><span class="p">,</span><span class="w"> </span><span class="s2">"E"</span><span class="p">,</span><span class="w"> </span><span class="s2">"F"</span><span class="p">,</span><span class="w"> </span><span class="s2">"F"</span><span class="p">,</span><span class="w"> </span><span class="s2">"G"</span><span class="p">,</span><span class="w"> </span><span class="s2">"H"</span><span class="p">,</span><span class="w"> </span><span class="s2">"F"</span><span class="p">,</span><span class="w"> </span><span class="s2">"F"</span><span class="p">))</span><span class="w">
-</span><span class="n">f3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">visNetwork</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="w"> </span><span class="n">edges</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">visLayout</span><span class="p">(</span><span class="m">7</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div> <iframeComp ihtml="/widgets/xmas_vis.html"></iframeComp>]]></content><author><name></name></author><category term="rstats"/><category term="flowchart"/><summary type="html"><![CDATA[Packages to draw flowchart (christmas tree) in R Graphviz]]></summary></entry></feed>
+</code></pre></div></div> <h2 id="reference">Reference</h2> <p>https://blogs.rstudio.com/tensorflow/posts/2019-10-23-gpt-2/</p>]]></content><author><name></name></author><category term="deeplearning"/><category term="rstats"/><summary type="html"><![CDATA[Happy holiday from GTP-2 in R GTP-2 is the state-of-the-art language model from OpenAI.]]></summary></entry></feed>
